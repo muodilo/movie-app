@@ -14,7 +14,7 @@ const Header = () => {
         prevIndex === 3 ? 0 : prevIndex + 1 
       );
     }, 4000);
-
+    console.log(movies);
     return () => clearInterval(interval);
   }, [movies]);
 

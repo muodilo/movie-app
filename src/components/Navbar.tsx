@@ -11,7 +11,7 @@ const Navbar = () => {
       </div>
 
       {/* for small device */}
-      <div className="md:hidden py-2 fixed top-0 left-0 right-0 z-50 bg-black px-5 flex items-center justify-between">
+      <div className="md:hidden py-4 fixed top-0 left-0 right-0 z-50 bg-black px-5 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Logo />
           <p className="font-bold">Movie APP</p>

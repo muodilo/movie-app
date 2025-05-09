@@ -10,7 +10,7 @@ const SideBar = () => {
       <div
         className={`${
           collapsed ? 'w-16' : 'w-64'
-        } bg-gray-900 text-white h-full px-5 pt-4 transition-all duration-300`}
+        } bg-gray-  border-r-2 border-slate-800 text-white h-full px-5 pt-4 transition-all duration-300`}
       >
         <div className="flex items-center justify-start gap-2 mb-6">
           <Logo/>
@@ -32,7 +32,7 @@ const SideBar = () => {
 
       <button
         onClick={() => setCollapsed((prev) => !prev)}
-        className="absolute top-3 left-[calc(100%+4px)] z-20 bg-gray-900/60 p-2 rounded-lg text-white shadow cursor-pointer"
+        className="absolute top-3 left-[calc(100%+4px)] z-20 border-2 bg-black border-slate-800 p-2 rounded-lg text-white shadow cursor-pointer"
       >
         {collapsed ? (
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24"><defs><path id="weuiArrowOutlined0" fill="currentColor" d="m7.588 12.43l-1.061 1.06L.748 7.713a.996.996 0 0 1 0-1.413L6.527.52l1.06 1.06l-5.424 5.425z"/></defs><use fill-rule="evenodd" href="#weuiArrowOutlined0" transform="rotate(-180 5.02 9.505)"/></svg>

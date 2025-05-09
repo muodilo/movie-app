@@ -1,7 +1,8 @@
 const SearchBar = () => {
   return (
-            <div className="border rounded-full ps-7 pr-3 flex items-center">
+            <div className="border border-slate-500 rounded-full ps-7 pr-3 flex items-center">
           <svg
+          className="text-slate-500"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
