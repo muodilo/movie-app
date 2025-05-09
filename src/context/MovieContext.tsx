@@ -8,6 +8,10 @@ interface Movie {
   releaseYear: { year: number };
 }
 
+interface MovieApiResponse {
+  results: Movie[];
+}
+
 interface MovieContextType {
   movies: Movie[];
   loading: boolean;
@@ -31,16 +35,15 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       try {
         const options = {
           method: 'GET',
-          url: `${import.meta.env.VITE_BASE_URL}/titles`, 
+          url: `${import.meta.env.VITE_BASE_URL}/titles`,
           headers: {
-            'x-rapidapi-key': import.meta.env.VITE_RAPIDAPI_KEY, 
-            'x-rapidapi-host': import.meta.env.VITE_RAPIDAPI_HOST, 
+            'x-rapidapi-key': import.meta.env.VITE_RAPIDAPI_KEY,
+            'x-rapidapi-host': import.meta.env.VITE_RAPIDAPI_HOST,
           },
         };
 
-        const response = await axios.request(options);
+        const response = await axios.request<MovieApiResponse>(options);
         setMovies(response.data.results);
-        console.log(movies);
       } catch (err: any) {
         setError(err.message || 'Failed to fetch movies');
       } finally {
