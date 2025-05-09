@@ -1,5 +1,3 @@
-
-
 const Logo = () => {
   return (
     <div className="bg-yellow-500 w-6 h-6 flex items-center justify-center rounded-full">
