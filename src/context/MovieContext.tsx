@@ -31,7 +31,7 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       try {
         const options = {
           method: 'GET',
-          url: import.meta.env.VITE_BASE_URL, 
+          url: `${import.meta.env.VITE_BASE_URL}/titles`, 
           headers: {
             'x-rapidapi-key': import.meta.env.VITE_RAPIDAPI_KEY, 
             'x-rapidapi-host': import.meta.env.VITE_RAPIDAPI_HOST, 

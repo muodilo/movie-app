@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Logo from './Logo';
 
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -14,24 +15,7 @@ const SideBar = () => {
         } bg-gray-900 text-white h-full px-5 pt-4 transition-all duration-300`}
       >
         <div className="flex items-center justify-start gap-2 mb-6">
-          <div className="bg-yellow-500 w-6 h-6 flex items-center justify-center rounded-full">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              className="p-0.5"
-            >
-              <path
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm4-2v16m8-16v16M4 8h4m-4 8h4m-4-4h16m-4-4h4m-4 8h4"
-              />
-            </svg>
-          </div>
+          <Logo/>
           {!collapsed && <p className="text-lg font-bold">Movie App</p>}
         </div>
 
