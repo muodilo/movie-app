@@ -19,7 +19,7 @@ const SearchBar = () => {
           <input
             placeholder="Search "
             type="text"
-            className="w-full ps-3 py-2 focus:border-0 focus:outline-0"
+            className="w-full ps-3 py-1 focus:border-0 focus:outline-0"
           />
         </div>
   )

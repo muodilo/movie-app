@@ -31,7 +31,7 @@ const Header = () => {
   const limitedMovies = movies.slice(0, 4);
 
   return (
-    <div className="relative w-full lg:h-[400px] md:h-[350px] h-[300px] overflow-hidden">
+    <div className="relative w-full lg:h-[400px] md:h-[350px] h-[300px] overflow-hidden ">
       {limitedMovies.map((movie, index) => {
         const imageUrl = movie.primaryImage?.url;
         const title = movie.titleText?.text;

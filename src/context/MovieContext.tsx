@@ -40,6 +40,7 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
         const response = await axios.request(options);
         setMovies(response.data.results);
+        console.log(movies);
       } catch (err: any) {
         setError(err.message || 'Failed to fetch movies');
       } finally {
