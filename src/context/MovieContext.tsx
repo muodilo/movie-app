@@ -31,10 +31,10 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       try {
         const options = {
           method: 'GET',
-          url: 'https://moviesdatabase.p.rapidapi.com/titles',
+          url: import.meta.env.VITE_BASE_URL, 
           headers: {
-            'x-rapidapi-key': '9d133dcac2mshfea44f15c5b3071p192404jsn242a204d21f5',
-            'x-rapidapi-host': 'moviesdatabase.p.rapidapi.com',
+            'x-rapidapi-key': import.meta.env.VITE_RAPIDAPI_KEY, 
+            'x-rapidapi-host': import.meta.env.VITE_RAPIDAPI_HOST, 
           },
         };
 
