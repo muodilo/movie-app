@@ -21,8 +21,12 @@ const MovieList = () => {
     return <p className="text-red-500 text-center">{error}</p>;
   }
 
+  if (movies.length === 0) {
+    return <p className="text-center text-gray-500 text-lg pt-6">No results found.</p>;
+  }
+
   return (
-    <div className=" mb-5">
+    <div className="mb-5">
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
         {movies.map((movie) => {
           const imageUrl = movie.primaryImage?.url;
@@ -41,11 +45,15 @@ const MovieList = () => {
           );
         })}
       </div>
-      <Pagination
-        currentPage={page}
-        totalPages={totalPages}
-        onPageChange={(newPage) => setPage(newPage)}
-      />
+
+      {/* Show pagination only if more than 10 results */}
+      {movies.length > 9 && (
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={(newPage) => setPage(newPage)}
+        />
+      )}
     </div>
   );
 };
