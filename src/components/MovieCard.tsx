@@ -11,7 +11,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ id, imageUrl, title, year }) => {
   return (
     <div
       key={id}
-      className="border-2 border-slate-600/30 shadow-md rounded-lg overflow-hidden"
+      className="border-2 border-slate-600/30 shadow-md rounded-lg overflow-hidden cursor-pointer"
     >
       <img
         src={imageUrl}

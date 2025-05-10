@@ -27,6 +27,7 @@ const useFetch = (listType: string, page = 1) => {
           method: "GET",
           url: `${import.meta.env.VITE_BASE_URL}/titles`,
           params: {
+            startYear: '2015',
             list: listType,
             page: currentPage.toString(),
           },

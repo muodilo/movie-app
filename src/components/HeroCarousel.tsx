@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch"; // Adjust path as needed
 import { FaImdb } from "react-icons/fa";
-import { MdOutlineLiveTv } from "react-icons/md";
 import { MdStarRate } from "react-icons/md";
 
 const Header = () => {
@@ -54,7 +53,7 @@ const Header = () => {
               alt={title}
               className="w-full h-full object-cover rounded-xl"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent flex flex-col justify-between px-4">
+            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent flex flex-col justify-between px-4">
               <div className="flex items-center pt-5">
                 <button className="flex items-center gap-2 px-2 py-1 bg-red-500 rounded-full">
                   <MdStarRate/>
