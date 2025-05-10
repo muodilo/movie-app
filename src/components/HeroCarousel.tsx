@@ -24,13 +24,17 @@ const Header = () => {
   }
 
   if (error) {
-    return <p className="text-red-500">{error}</p>;
+    return (
+    <div className="w-full lg:h-[250px] md:h-[350px] h-[300px] overflow-hidden border-2 rounded-xl border-slate-600 flex items-center justify-center">
+     <p className="text-red-500">{error}</p>
+     </div>)
+      
   }
 
   const limitedMovies = movies?.length > 0 ? movies.slice(0, 4) : [];
 
   return (
-    <div className="relative w-full lg:h-[250px] md:h-[350px] h-[300px] overflow-hidden border-2 rounded-xl border-slate-600">
+    <div className="relative w-full lg:h-[250px] md:h-[350px] h-[300px] overflow-hidden border-2 rounded-xl border-slate-600/30">
       {limitedMovies.map((movie, index) => {
         const imageUrl = movie.primaryImage?.url;
         const title = movie.titleText?.text;

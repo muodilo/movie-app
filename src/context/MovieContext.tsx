@@ -16,18 +16,23 @@ interface MovieContextType {
   movies: Movie[];
   loading: boolean;
   error: string | null;
+  page: number;
+  setPage: (page: number) => void;
 }
 
 const MovieContext = createContext<MovieContextType>({
   movies: [],
   loading: false,
   error: null,
+  page: 1,
+  setPage: () => {},
 });
 
 export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -37,8 +42,9 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           method: 'GET',
           url: `${import.meta.env.VITE_BASE_URL}/titles`,
           params: {
-          list: 'most_pop_series',
-        },
+            list: 'most_pop_series',
+            page: page.toString(),
+          },
           headers: {
             'x-rapidapi-key': import.meta.env.VITE_RAPIDAPI_KEY,
             'x-rapidapi-host': import.meta.env.VITE_RAPIDAPI_HOST,
@@ -55,10 +61,10 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     };
 
     fetchMovies();
-  }, []);
+  }, [page]);
 
   return (
-    <MovieContext.Provider value={{ movies, loading, error }}>
+    <MovieContext.Provider value={{ movies, loading, error, page, setPage }}>
       {children}
     </MovieContext.Provider>
   );
