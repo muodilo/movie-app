@@ -31,15 +31,15 @@ const MovieList = () => {
         return (
           <div
             key={movie.id}
-            className="bg-white shadow-md rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300"
+            className="border-2 border-slate-600 shadow-md rounded-lg overflow-hidden "
           >
             <img
               src={imageUrl}
               alt={title}
-              className="w-full h-40 object-cover"
+              className="w-full h-56   object-cover hover:scale-105 transition-transform duration-300"
             />
             <div className="p-2">
-              <h3 className="text-sm font-semibold truncate">{title}</h3>
+              <h3 className="text-sm text-slate-500 font-semibold truncate">{title}</h3>
               <p className="text-xs text-gray-500">
                 {movie.releaseYear?.year || "Unknown Year"}
               </p>

@@ -36,6 +36,9 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         const options = {
           method: 'GET',
           url: `${import.meta.env.VITE_BASE_URL}/titles`,
+          params: {
+          list: 'most_pop_series',
+        },
           headers: {
             'x-rapidapi-key': import.meta.env.VITE_RAPIDAPI_KEY,
             'x-rapidapi-host': import.meta.env.VITE_RAPIDAPI_HOST,
