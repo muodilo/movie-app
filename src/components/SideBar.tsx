@@ -63,7 +63,7 @@ const SideBar = () => {
       <div
         className={`${
           collapsed ? 'w-16' : 'w-64'
-        } bg-gray-900 border-r-2 border-slate-800 text-white h-full transition-all duration-300 flex flex-col`}
+        } bg-black border-r-2 border-slate-800 text-white h-full transition-all duration-300 flex flex-col`}
       >
         
         <div className="flex items-center justify-start gap-2 px-5 pt-4 mb-4 shrink-0">
