@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Logo from './Logo';
+import { IoIosArrowBack } from "react-icons/io";
 
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -35,9 +36,9 @@ const SideBar = () => {
         className="absolute top-3 left-[calc(100%+4px)] z-20 border-2 bg-black border-slate-800 p-2 rounded-lg text-white shadow cursor-pointer"
       >
         {collapsed ? (
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24"><defs><path id="weuiArrowOutlined0" fill="currentColor" d="m7.588 12.43l-1.061 1.06L.748 7.713a.996.996 0 0 1 0-1.413L6.527.52l1.06 1.06l-5.424 5.425z"/></defs><use fill-rule="evenodd" href="#weuiArrowOutlined0" transform="rotate(-180 5.02 9.505)"/></svg>
+          <IoIosArrowBack/>
         ) : (
-          <svg className='rotate-180' xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24"><defs><path id="weuiArrowOutlined0" fill="currentColor" d="m7.588 12.43l-1.061 1.06L.748 7.713a.996.996 0 0 1 0-1.413L6.527.52l1.06 1.06l-5.424 5.425z"/></defs><use fill-rule="evenodd" href="#weuiArrowOutlined0" transform="rotate(-180 5.02 9.505)"/></svg>
+          <IoIosArrowBack className='rotate-180'/>
         )}
       </button>
     </aside>
