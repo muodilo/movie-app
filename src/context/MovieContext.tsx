@@ -54,12 +54,12 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         };
 
         if (keyword) {
-          // Format the keyword: lowercase and replace spaces with hyphens
+          
           const formattedKeyword = keyword.toLowerCase().replace(/\s+/g, '-');
           url = `${import.meta.env.VITE_BASE_URL}/titles/search/keyword/${formattedKeyword}`;
           params.exact = 'true';
         } else {
-          // Default to popular series list if no keyword is provided
+          
           params.list = 'most_pop_series';
         }
 
