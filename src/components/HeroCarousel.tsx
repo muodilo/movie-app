@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
-import { useMovies } from "../context/MovieContext";
+import useFetch from "../hooks/useFetch"; // Adjust path as needed
 import { FaImdb } from "react-icons/fa";
 import { MdOutlineLiveTv } from "react-icons/md";
+import { MdStarRate } from "react-icons/md";
 
 const Header = () => {
-  const { movies, loading, error } = useMovies();
+  const { data: movies, loading, error } = useFetch("top_rated_series_250", 1);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    if (movies?.length === 0) return;
+    if (movies.length === 0) return;
 
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex === 3 ? 0 : prevIndex + 1));
+      setCurrentIndex((prev) => (prev === 3 ? 0 : prev + 1));
     }, 4000);
-    console.log(movies);
+
     return () => clearInterval(interval);
   }, [movies]);
 
@@ -25,13 +26,13 @@ const Header = () => {
 
   if (error) {
     return (
-    <div className="w-full lg:h-[250px] md:h-[350px] h-[300px] overflow-hidden border-2 rounded-xl border-slate-600 flex items-center justify-center">
-     <p className="text-red-500">{error}</p>
-     </div>)
-      
+      <div className="w-full lg:h-[250px] md:h-[350px] h-[300px] overflow-hidden border-2 rounded-xl border-slate-600 flex items-center justify-center">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
   }
 
-  const limitedMovies = movies?.length > 0 ? movies.slice(0, 4) : [];
+  const limitedMovies = movies.slice(0, 4);
 
   return (
     <div className="relative w-full lg:h-[250px] md:h-[350px] h-[300px] overflow-hidden border-2 rounded-xl border-slate-600/30">
@@ -43,7 +44,7 @@ const Header = () => {
 
         return (
           <div
-            key={index}
+            key={movie.id}
             className={`absolute top-0 left-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
               index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
             }`}
@@ -56,14 +57,14 @@ const Header = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent flex flex-col justify-between px-4">
               <div className="flex items-center pt-5">
                 <button className="flex items-center gap-2 px-2 py-1 bg-red-500 rounded-full">
-                  <MdOutlineLiveTv/>
-                  <p className="text-xs">Live</p>
+                  <MdStarRate/>
+                  <p className="text-xs">Top rated series</p>
                 </button>
               </div>
               <div className="text-white max-w-[60%] pb-5">
                 <h2 className="font-bold text-4xl">{title}</h2>
                 <div className="flex items-center gap-2">
-                  <FaImdb className="text-xl"/>
+                  <FaImdb className="text-xl" />
                   <p>4.5</p>
                 </div>
                 <div className="mt-4">

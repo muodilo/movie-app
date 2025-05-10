@@ -10,6 +10,12 @@ const Home = () => {
       <div className="text-white px-5 w-full relative h-svh overflow-auto">
         <Navbar/>
         <Header/>
+        <div className="md:flex items-center justify-center mt-6 mb-2 hidden">
+          <div className="w-10 h-1 bg-red-500 rounded"></div>
+          <button className="bg-red-500 px-5 py-1  rounded-full text-xs">Most popular series</button>
+          <div className="w-10 h-1 bg-red-500 rounded"></div>
+          
+        </div>
         <MovieList/>
       </div>
     </section>
