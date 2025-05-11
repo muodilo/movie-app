@@ -9,7 +9,7 @@ const MovieList = () => {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 pt-7">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 ">
         {Array.from({ length: 8 }).map((_, index) => (
           <SkeletonCard key={index} />
         ))}
