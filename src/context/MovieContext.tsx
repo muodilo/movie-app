@@ -6,6 +6,7 @@ interface Movie {
   titleText: { text: string };
   primaryImage?: { url: string };
   releaseYear: { year: number };
+  ratingsSummary?:{aggregateRating:string}
 }
 
 interface MovieApiResponse {
@@ -56,11 +57,12 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         if (keyword) {
           
           const formattedKeyword = keyword.toLowerCase().replace(/\s+/g, '-');
-          url = `${import.meta.env.VITE_BASE_URL}/titles/search/keyword/${formattedKeyword}`;
-          params.exact = 'true';
+          url = `${import.meta.env.VITE_BASE_URL}/titles/search/title/${formattedKeyword}`;
+          params.exact = 'false';
         } else {
           
           params.list = 'most_pop_series';
+          params.info = "base_info"
         }
 
         if (titleType) {

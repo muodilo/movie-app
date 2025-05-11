@@ -31,6 +31,7 @@ const MovieList = () => {
         {movies.map((movie) => {
           const imageUrl = movie.primaryImage?.url;
           const title = movie.titleText?.text;
+          const rating=movie.ratingsSummary?.aggregateRating
 
           if (!imageUrl || !title) return null;
 
@@ -40,6 +41,7 @@ const MovieList = () => {
               id={movie.id}
               imageUrl={imageUrl}
               title={title}
+              rating={rating}
               year={movie.releaseYear?.year}
             />
           );

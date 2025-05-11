@@ -6,6 +6,7 @@ interface Movie {
   titleText: { text: string };
   primaryImage?: { url: string };
   releaseYear: { year: number };
+  ratingsSummary?:{aggregateRating:string}
 }
 
 interface MovieApiResponse {
@@ -28,6 +29,7 @@ const useFetch = (listType: string, page = 1) => {
           url: `${import.meta.env.VITE_BASE_URL}/titles`,
           params: {
             startYear: '2015',
+            info: "base_info",
             list: listType,
             page: currentPage.toString(),
           },

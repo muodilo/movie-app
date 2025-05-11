@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useFetch from "../hooks/useFetch"; // Adjust path as needed
+import useFetch from "../hooks/useFetch"; 
 import { FaImdb } from "react-icons/fa";
 import { MdStarRate } from "react-icons/md";
 
@@ -38,6 +38,7 @@ const Header = () => {
       {limitedMovies.map((movie, index) => {
         const imageUrl = movie.primaryImage?.url;
         const title = movie.titleText?.text;
+        const rating=movie.ratingsSummary?.aggregateRating
 
         if (!imageUrl || !title) return null;
 
@@ -64,7 +65,7 @@ const Header = () => {
                 <h2 className="font-bold text-4xl">{title}</h2>
                 <div className="flex items-center gap-2">
                   <FaImdb className="text-xl" />
-                  <p>4.5</p>
+                  <p>{rating}</p>
                 </div>
                 <div className="mt-4">
                   <button className="bg-red-500 px-5 py-2 rounded-xl cursor-pointer">
