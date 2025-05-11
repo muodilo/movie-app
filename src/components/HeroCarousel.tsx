@@ -19,7 +19,7 @@ const Header = () => {
 
   if (loading) {
     return (
-      <div className="relative w-full lg:h-[250px] md:h-[350px] h-[300px] bg-gray-200 animate-pulse rounded-xl" />
+      <div className="relative mt-10 w-full lg:h-[250px] md:h-[350px] h-[300px] bg-gray-200 animate-pulse rounded-xl" />
     );
   }
 
