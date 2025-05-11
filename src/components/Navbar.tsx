@@ -26,9 +26,9 @@ const Navbar = () => {
     const fetchTitleTypes = async () => {
       const options = {
         method: 'GET',
-        url: `${import.meta.env.VITE_BASE_URL}/titles/utils/titleTypes`,
+        url: `${import.meta.env.VITE_BASE_URL}/titles/utils/genres`,
         headers: {
-          'x-rapidapi-key': import.meta.env.VITE_RAPIDAPI_KEY,  // Replace with your actual key
+          'x-rapidapi-key': import.meta.env.VITE_RAPIDAPI_KEY, 
           'x-rapidapi-host': import.meta.env.VITE_RAPIDAPI_HOST,
         },
       };
