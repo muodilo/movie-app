@@ -66,7 +66,7 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         }
 
         if (titleType) {
-          params.titleType = titleType;
+          params.genre = titleType;
         }
 
         const response = await axios.request<MovieApiResponse>({
