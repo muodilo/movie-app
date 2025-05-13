@@ -42,7 +42,6 @@ const MovieList = () => {
               imageUrl={imageUrl}
               title={title}
               rating={rating}
-              year={movie.releaseYear?.year}
             />
           );
         })}

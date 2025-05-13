@@ -101,8 +101,8 @@ const Navbar = () => {
                   <div className="h-6 bg-gray-700 mb-4 w-1/3"></div>
                 </div>
               ) : (
-                <div className='h-36 overflow-auto'>
-                  <div
+                <ul className='h-36 overflow-auto'>
+                  <li
                     key="all"
                     onClick={() => handleTypeClick('')}
                     className={`flex items-center gap-3 cursor-pointer py-0.5 px-2 rounded transition-colors ${
@@ -112,9 +112,9 @@ const Navbar = () => {
                     }`}
                   >
                     <span>All</span>
-                  </div>
+                  </li>
                   {titleTypes.map((type) => (
-                    <div
+                    <li
                       key={type}
                       onClick={() => handleTypeClick(type)}
                       className={`flex items-center gap-3 my-2 cursor-pointer py-0.5 px-2 rounded transition-colors ${
@@ -124,9 +124,9 @@ const Navbar = () => {
                       }`}
                     >
                       <span>{type}</span>
-                    </div>
+                    </li>
                   ))}
-                </div>
+                </ul>
               )}
             </div>
           </div>

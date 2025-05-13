@@ -6,11 +6,10 @@ interface MovieCardProps {
   id: string;
   imageUrl: string;
   title: string;
-  year?: number;
   rating?:string;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ id, imageUrl, title, rating,year}) => {
+const MovieCard: React.FC<MovieCardProps> = ({ id, imageUrl, title, rating}) => {
   return (
     <div
       key={id}
