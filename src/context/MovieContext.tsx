@@ -6,40 +6,81 @@ interface Movie {
   titleText: { text: string };
   primaryImage?: { url: string };
   releaseYear: { year: number };
+  ratingsSummary?:{aggregateRating:string}
+}
+
+interface MovieApiResponse {
+  results: Movie[];
 }
 
 interface MovieContextType {
   movies: Movie[];
   loading: boolean;
   error: string | null;
+  page: number;
+  setPage: (page: number) => void;
+  titleType?: string;
+  setTitleType: (type?: string) => void;
+  keyword?: string;
+  setKeyword: (keyword?: string) => void;
 }
 
 const MovieContext = createContext<MovieContextType>({
   movies: [],
   loading: false,
   error: null,
+  page: 1,
+  setPage: () => {},
+  titleType: undefined,
+  setTitleType: () => {},
+  keyword: undefined,
+  setKeyword: () => {},
 });
 
 export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const [titleType, setTitleType] = useState<string | undefined>(undefined);
+  const [keyword, setKeyword] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const fetchMovies = async () => {
       setLoading(true);
       try {
-        const options = {
-          method: 'GET',
-          url: 'https://moviesdatabase.p.rapidapi.com/titles',
-          headers: {
-            'x-rapidapi-key': '9d133dcac2mshfea44f15c5b3071p192404jsn242a204d21f5',
-            'x-rapidapi-host': 'moviesdatabase.p.rapidapi.com',
-          },
+        let url = `${import.meta.env.VITE_BASE_URL}/titles`;
+        const params: Record<string, string> = {
+          page: page.toString(),
         };
 
-        const response = await axios.request(options);
+        if (keyword) {
+          
+          const formattedKeyword = keyword.toLowerCase().replace(/\s+/g, '-');
+          url = `${import.meta.env.VITE_BASE_URL}/titles/search/title/${formattedKeyword}`;
+          params.exact = 'false';
+        } else {
+          
+          params.list = 'most_pop_series';
+          params.info = "base_info"
+        }
+
+        if (titleType) {
+          params.genre = titleType;
+        }
+
+        const response = await axios.request<MovieApiResponse>({
+          method: 'GET',
+          url,
+          params,
+          headers: {
+            'x-rapidapi-key': import.meta.env.VITE_RAPIDAPI_KEY,
+            'x-rapidapi-host': import.meta.env.VITE_RAPIDAPI_HOST,
+          },
+        });
+
         setMovies(response.data.results);
+        setError(null);
       } catch (err: any) {
         setError(err.message || 'Failed to fetch movies');
       } finally {
@@ -48,10 +89,22 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     };
 
     fetchMovies();
-  }, []);
+  }, [page, titleType, keyword]);
 
   return (
-    <MovieContext.Provider value={{ movies, loading, error }}>
+    <MovieContext.Provider
+      value={{
+        movies,
+        loading,
+        error,
+        page,
+        setPage,
+        titleType,
+        setTitleType,
+        keyword,
+        setKeyword,
+      }}
+    >
       {children}
     </MovieContext.Provider>
   );

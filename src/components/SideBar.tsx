@@ -1,64 +1,131 @@
-'use client';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import Logo from './Logo';
+import { IoIosArrowBack } from 'react-icons/io';
+import { useMovies } from '../context/MovieContext';
 
-import { useState } from 'react';
+interface TitleTypesResponse {
+  results: (string | null)[];
+}
+
+const LOCAL_STORAGE_KEY = 'activeTitleType';
 
 const SideBar = () => {
+  const { setTitleType } = useMovies();
   const [collapsed, setCollapsed] = useState(false);
+  const [titleTypes, setTitleTypes] = useState<string[]>([]);
+  const [activeType, setActiveType] = useState<string>('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const storedType = localStorage.getItem(LOCAL_STORAGE_KEY) ?? '';
+    setActiveType(storedType);
+    setTitleType(storedType);
+
+    const fetchTitleTypes = async () => {
+      const options = {
+        method: 'GET',
+        url: `${import.meta.env.VITE_BASE_URL}/titles/utils/genres`,
+        headers: {
+          'x-rapidapi-key':import.meta.env.VITE_RAPIDAPI_KEY,
+          'x-rapidapi-host': import.meta.env.VITE_RAPIDAPI_HOST,
+        },
+      };
+
+      try {
+        const response = await axios.request<TitleTypesResponse>(options);
+        const filteredResults = response.data.results.filter(
+          (item): item is string => item !== null
+        );
+        setTitleTypes(filteredResults);
+      } catch (error) {
+        console.error('Error fetching title types:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTitleTypes();
+  }, [setTitleType]);
+
+  const handleTypeClick = (type: string) => {
+    if (type === '') {
+      localStorage.removeItem(LOCAL_STORAGE_KEY);
+    } else {
+      localStorage.setItem(LOCAL_STORAGE_KEY, type);
+    }
+    setActiveType(type);
+    setTitleType(type);
+  };
 
   return (
-    <div className="relative h-screen md:block hidden">
-      
+    <aside className="relative h-screen md:block hidden">
       <div
         className={`${
           collapsed ? 'w-16' : 'w-64'
-        } bg-gray-900 text-white h-full px-5 pt-4 transition-all duration-300`}
+        } bg-black border-r-2 border-slate-800 text-white h-full transition-all duration-300 flex flex-col`}
       >
-        <div className="flex items-center justify-start gap-2 mb-6">
-          <div className="bg-yellow-500 w-6 h-6 flex items-center justify-center rounded-full">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              className="p-0.5"
-            >
-              <path
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm4-2v16m8-16v16M4 8h4m-4 8h4m-4-4h16m-4-4h4m-4 8h4"
-              />
-            </svg>
-          </div>
+        
+        <div className="flex items-center justify-start gap-2 px-5 pt-4 mb-4 shrink-0">
+          <Logo />
           {!collapsed && <p className="text-lg font-bold">Movie App</p>}
         </div>
 
-        <nav className="space-y-4">
-          <div className="flex items-center gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M6.133 21C4.955 21 4 20.02 4 18.81v-8.802c0-.665.295-1.295.8-1.71l5.867-4.818a2.09 2.09 0 0 1 2.666 0l5.866 4.818c.506.415.801 1.045.801 1.71v8.802c0 1.21-.955 2.19-2.133 2.19z"/><path d="M9.5 21v-5.5a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2V21"/></g></svg>
-            {!collapsed && <span>Home</span>}
-          </div>
+        
+        <nav className="flex-1 overflow-auto px-5 space-y-2 pb-4">
+          {loading ? (
+            Array.from({ length: 10 }).map((_, idx) => (
+              <div
+                key={idx}
+                className="h-6 mb-5 rounded-full bg-gray-700 animate-pulse w-full"
+              ></div>
+            ))
+          ) : (
+            <>
+              
+              <div
+                key="all"
+                onClick={() => handleTypeClick('')}
+                className={`flex items-center gap-3 cursor-pointer py-0.5 px-2 rounded transition-colors ${
+                  activeType === ''
+                    ? 'bg-red-500 text-white'
+                    : 'hover:bg-red-500 hover:text-white'
+                }`}
+              >
+                {!collapsed && <span>All</span>}
+              </div>
 
-          <div className="flex items-center gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M6.133 21C4.955 21 4 20.02 4 18.81v-8.802c0-.665.295-1.295.8-1.71l5.867-4.818a2.09 2.09 0 0 1 2.666 0l5.866 4.818c.506.415.801 1.045.801 1.71v8.802c0 1.21-.955 2.19-2.133 2.19z"/><path d="M9.5 21v-5.5a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2V21"/></g></svg>
-            {!collapsed && <span>Home</span>}
-          </div>
+              
+              {titleTypes.map((type) => (
+                <div
+                  key={type}
+                  onClick={() => handleTypeClick(type)}
+                  className={`flex items-center gap-3 cursor-pointer py-0.5 px-2 rounded transition-colors ${
+                    activeType === type
+                      ? 'bg-red-500 text-white'
+                      : 'hover:bg-red-500 hover:text-white'
+                  }`}
+                >
+                  {!collapsed && <span>{type}</span>}
+                </div>
+              ))}
+            </>
+          )}
         </nav>
       </div>
 
+      
       <button
         onClick={() => setCollapsed((prev) => !prev)}
-        className="absolute top-3 left-[calc(100%+4px)] z-20 bg-gray-900/60 p-2 rounded-lg text-white shadow cursor-pointer"
+        className="absolute top-3 left-[calc(100%+4px)] z-20 border-2 bg-black border-slate-800 p-2 rounded-lg text-white shadow cursor-pointer"
       >
         {collapsed ? (
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24"><defs><path id="weuiArrowOutlined0" fill="currentColor" d="m7.588 12.43l-1.061 1.06L.748 7.713a.996.996 0 0 1 0-1.413L6.527.52l1.06 1.06l-5.424 5.425z"/></defs><use fill-rule="evenodd" href="#weuiArrowOutlined0" transform="rotate(-180 5.02 9.505)"/></svg>
+          <IoIosArrowBack className="rotate-180" />
         ) : (
-          <svg className='rotate-180' xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24"><defs><path id="weuiArrowOutlined0" fill="currentColor" d="m7.588 12.43l-1.061 1.06L.748 7.713a.996.996 0 0 1 0-1.413L6.527.52l1.06 1.06l-5.424 5.425z"/></defs><use fill-rule="evenodd" href="#weuiArrowOutlined0" transform="rotate(-180 5.02 9.505)"/></svg>
+          <IoIosArrowBack />
         )}
       </button>
-    </div>
+    </aside>
   );
 };
 
