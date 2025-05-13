@@ -1,5 +1,6 @@
 import React from "react";
 import { FaImdb } from "react-icons/fa";
+import DefaultImage from '../assets/defaultimage.webp'
 
 interface MovieCardProps {
   id: string;
@@ -16,11 +17,11 @@ const MovieCard: React.FC<MovieCardProps> = ({ id, imageUrl, title, rating,year}
       className="border-2 border-slate-600/30 shadow-md rounded-4xl overflow-hidden cursor-pointer"
     >
       <img
-  src={imageUrl || 'https://images.pexels.com/photos/30617227/pexels-photo-30617227/free-photo-of-empty-theater-seats-with-dramatic-lighting.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'}
+  src={imageUrl || DefaultImage}
   alt={title}
   onError={(e) => {
     e.currentTarget.src =
-      'https://images.pexels.com/photos/30617227/pexels-photo-30617227/free-photo-of-empty-theater-seats-with-dramatic-lighting.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
+      DefaultImage;
   }}
   className="w-full h-56 object-cover hover:scale-105 transition-transform duration-300"
 />

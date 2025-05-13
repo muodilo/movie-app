@@ -3,7 +3,7 @@ import useFetch from "../hooks/useFetch";
 import { FaImdb } from "react-icons/fa";
 import { MdStarRate } from "react-icons/md";
 
-const Header = () => {
+const HeroCarousel = () => {
   const { data: movies, loading, error } = useFetch("top_rated_series_250", 1);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -81,4 +81,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeroCarousel;
