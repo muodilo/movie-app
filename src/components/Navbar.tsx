@@ -4,6 +4,7 @@ import Logo from './Logo';
 import SearchBar from './SearchBar';
 import { useMovies } from '../context/MovieContext';
 import { MdOutlineClose } from "react-icons/md";
+import { FiMenu } from "react-icons/fi";
 
 interface TitleTypesResponse {
   results: (string | null)[]; 
@@ -65,14 +66,11 @@ const Navbar = () => {
       <div className="md:flex justify-center hidden">
         <SearchBar />
       </div>
-
-      
       <div className="md:hidden py-4 fixed top-0 left-0 right-0 z-50 bg-black px-5 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Logo />
           <p className="font-bold">Movie APP</p>
         </div>
-
         <div>
           
           <button
@@ -84,17 +82,7 @@ const Navbar = () => {
               <MdOutlineClose className='text-xl'/>
             ) : (
               
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="currentColor"
-                  d="M3 18h18v-2H3zm0-5h18v-2H3zm0-7v2h18V6z"
-                />
-              </svg>
+              < FiMenu className='text-xl'/>
             )}
           </button>
         </div>

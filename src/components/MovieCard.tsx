@@ -31,10 +31,10 @@ const MovieCard: React.FC<MovieCardProps> = ({ id, imageUrl, title, rating,year}
           {title}
         </h3>
         
-        {rating ?<div className="pb-2 flex items-center gap-2">
+       <div className="pb-2 flex items-center gap-2">
           <FaImdb/>
           <p className="text-slate-500">{rating}</p>
-        </div>:<p className="text-xs pb-2 text-gray-500"><span className="font-bold">Release Year:</span>{year || "Unknown Year"}</p>}
+        </div>
       </div>
     </div>
   );
