@@ -1,15 +1,27 @@
-import { useMovies } from "../context/MovieContext";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import type{ AppDispatch, RootState } from "../app/store";
+import { getMovies } from "../features/movies/moviesSlice";
 import Pagination from "../components/Pagination";
 import MovieCard from "../components/MovieCard";
 import SkeletonCard from "../components/SkeletonCard";
 
 const MovieList = () => {
-  const { movies, loading, error, page, setPage } = useMovies();
+  const dispatch = useDispatch<AppDispatch>();
+  const { movies, getMoviesLoading, getMoviesError, getMoviesErrorMessage } = useSelector(
+    (state: RootState) => state.movie
+  );
+
+  const [page, setPage] = useState(1);
   const totalPages = 10;
 
-  if (loading) {
+  useEffect(() => {
+    dispatch(getMovies(page.toString()));
+  }, [dispatch, page]);
+
+  if (getMoviesLoading) {
     return (
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 ">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {Array.from({ length: 8 }).map((_, index) => (
           <SkeletonCard key={index} />
         ))}
@@ -17,8 +29,8 @@ const MovieList = () => {
     );
   }
 
-  if (error) {
-    return <p className="text-red-500 text-center">{error}</p>;
+  if (getMoviesError) {
+    return <p className="text-red-500 text-center">{getMoviesErrorMessage}</p>;
   }
 
   if (movies.length === 0) {
@@ -31,7 +43,7 @@ const MovieList = () => {
         {movies.map((movie) => {
           const imageUrl = movie.primaryImage?.url;
           const title = movie.titleText?.text;
-          const rating=movie.ratingsSummary?.aggregateRating
+          const rating = movie.ratingsSummary?.aggregateRating;
 
           if (!imageUrl || !title) return null;
 
@@ -47,7 +59,6 @@ const MovieList = () => {
         })}
       </div>
 
-      {/* Show pagination only if more than 10 results */}
       {movies.length > 9 && (
         <Pagination
           currentPage={page}
