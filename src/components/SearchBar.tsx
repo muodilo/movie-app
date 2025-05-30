@@ -1,18 +1,25 @@
-import { useMovies } from '../context/MovieContext';
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../app/store";
+import { searchMovies,getMovies } from "../features/movies/moviesSlice";
 
 const SearchBar = () => {
-  const { setKeyword } = useMovies();
-  const [inputValue, setInputValue] = useState('');
-
+  const dispatch = useDispatch<AppDispatch>();
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
+
     const delayDebounce = setTimeout(() => {
-      setKeyword(inputValue.trim() || undefined); 
+      const keyword = inputValue.trim();
+      if (keyword) {
+        dispatch(searchMovies(keyword));
+      } else {
+      dispatch(getMovies("1"));
+    }
     }, 500);
 
     return () => clearTimeout(delayDebounce);
-  }, [inputValue, setKeyword]);
+  }, [inputValue, dispatch]);
 
   return (
     <div className="border border-slate-500 rounded-full ps-7 pr-3 flex items-center">
