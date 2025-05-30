@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Movie } from './moviesSlice'; // Ensure correct path
+import type { Movie } from './moviesSlice';
 
 interface MovieApiResponse {
   results: Movie[];
@@ -24,8 +24,27 @@ const getMovies = async (page: string): Promise<Movie[]> => {
   return response.data.results;
 };
 
+const searchMovies = async (keyword: string): Promise<Movie[]> => {
+  const formattedKeyword = keyword.toLowerCase().replace(/\s+/g, '-');
+  const url = `${BASE_API_URL}/titles/search/title/${formattedKeyword}`;
+
+  const config = {
+    headers: {
+      'x-rapidapi-key': import.meta.env.VITE_RAPIDAPI_KEY,
+      'x-rapidapi-host': import.meta.env.VITE_RAPIDAPI_HOST,
+    },
+    params: {
+      exact: 'false',
+    },
+  };
+
+  const response = await axios.get<MovieApiResponse>(url, config);
+  return response.data.results;
+};
+
 const movieServices = {
   getMovies,
+  searchMovies,
 };
 
 export default movieServices;

@@ -54,11 +54,14 @@ export const moviesSlice = createSlice({
         .addCase(getMovies.fulfilled,(state,action: PayloadAction<Movie[]>)=>{
             state.getMoviesLoading = false;
             state.getMoviesSuccess = true;
+            state.getMoviesError=false;
+            state.getMoviesErrorMessage='';
             state.movies = action.payload
         })
         .addCase(getMovies.rejected,(state,action: PayloadAction<any>)=>{
             state.getMoviesLoading=false;
             state.getMoviesSuccess= true;
+            state.getMoviesError=true;
             state.getMoviesErrorMessage = action.payload
         })
     }
