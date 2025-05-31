@@ -22,7 +22,14 @@ const SideBar = () => {
     (state: RootState) => state.movie
   );
 
+  // Only fetch genres once if they are empty
+  useEffect(() => {
+    if (!genres || genres.length === 0) {
+      dispatch(getMovieGenres());
+    }
+  }, [dispatch, genres]);
 
+  // Sync activeType with URL/localStorage on location.search change
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const genreFromURL = searchParams.get('genre');
@@ -32,10 +39,9 @@ const SideBar = () => {
 
     setActiveType(initialType);
     setTitleType(initialType);
-    dispatch(getMovieGenres());
-  }, [dispatch, location.search, setTitleType]);
+  }, [location.search, setTitleType]);
 
-
+  // Handle storage event from other tabs/windows
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === LOCAL_STORAGE_KEY) {
@@ -56,35 +62,16 @@ const SideBar = () => {
     return () => window.removeEventListener('storage', handleStorageChange);
   }, [location.search, navigate, setTitleType]);
 
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const storedType = localStorage.getItem(LOCAL_STORAGE_KEY) ?? '';
-      setActiveType((prev) => {
-        if (prev !== storedType) {
-          setTitleType(storedType);
-          return storedType;
-        }
-        return prev;
-      });
-    }, 500);
-
-    return () => clearInterval(interval);
-  }, [setTitleType]);
-
   const handleTypeClick = (type: any) => {
-    // Update local storage
     if (type === '') {
       localStorage.removeItem(LOCAL_STORAGE_KEY);
     } else {
       localStorage.setItem(LOCAL_STORAGE_KEY, type);
     }
 
-    // Update state and context
     setActiveType(type);
     setTitleType(type);
 
-    // Update URL query param
     const searchParams = new URLSearchParams(location.search);
     if (type) {
       searchParams.set('genre', type);
@@ -107,29 +94,27 @@ const SideBar = () => {
         </div>
 
         <nav className="flex-1 overflow-auto px-5 space-y-2 pb-4">
-          {getGenresLoading ? (
+          {getGenresLoading && (!genres || genres.length === 0) ? (
             Array.from({ length: 10 }).map((_, idx) => (
               <div
                 key={idx}
                 className="h-6 mb-5 rounded-full bg-gray-700 animate-pulse w-full"
-              ></div>
+              />
             ))
           ) : (
-            <>
-              {genres?.map((type) => (
-                <div
-                  key={type}
-                  onClick={() => handleTypeClick(type)}
-                  className={`flex items-center gap-3 cursor-pointer py-0.5 px-2 rounded transition-colors ${
-                    activeType === type
-                      ? 'bg-red-500 text-white'
-                      : 'hover:bg-red-500 hover:text-white'
-                  }`}
-                >
-                  {!collapsed && <span>{type || 'All'}</span>}
-                </div>
-              ))}
-            </>
+            genres?.map((type) => (
+              <div
+                key={type}
+                onClick={() => handleTypeClick(type)}
+                className={`flex items-center gap-3 cursor-pointer py-0.5 px-2 rounded transition-colors ${
+                  activeType === type
+                    ? 'bg-red-500 text-white'
+                    : 'hover:bg-red-500 hover:text-white'
+                }`}
+              >
+                {!collapsed && <span>{type || 'All'}</span>}
+              </div>
+            ))
           )}
         </nav>
       </div>

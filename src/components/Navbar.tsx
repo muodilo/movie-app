@@ -26,6 +26,13 @@ const Navbar = () => {
 
 
   useEffect(() => {
+    if (!titleTypes || titleTypes.length === 0) {
+      dispatch(getMovieGenres());
+    }
+  }, [dispatch, titleTypes]);
+
+
+  useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const genreFromURL = searchParams.get('genre');
     const storedType = localStorage.getItem(LOCAL_STORAGE_KEY) ?? '';
@@ -34,30 +41,11 @@ const Navbar = () => {
 
     setActiveType(initialType);
     setTitleType(initialType);
-
-    dispatch(getMovieGenres());
-  }, [dispatch, location.search, setTitleType]);
+  }, [location.search, setTitleType]);
 
 
   useEffect(() => {
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === LOCAL_STORAGE_KEY) {
-        const newType = event.newValue ?? '';
-        setActiveType(newType);
-        setTitleType(newType);
-
-        const searchParams = new URLSearchParams(location.search);
-        if (newType) {
-          searchParams.set('genre', newType);
-        } else {
-          searchParams.delete('genre');
-        }
-        navigate({ search: searchParams.toString() }, { replace: true });
-      }
-    };
-
-    const handleCustomChange = () => {
-      const newType = localStorage.getItem(LOCAL_STORAGE_KEY) ?? '';
+    const updateType = (newType: string) => {
       setActiveType(newType);
       setTitleType(newType);
 
@@ -70,6 +58,17 @@ const Navbar = () => {
       navigate({ search: searchParams.toString() }, { replace: true });
     };
 
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === LOCAL_STORAGE_KEY) {
+        updateType(event.newValue ?? '');
+      }
+    };
+
+    const handleCustomChange = () => {
+      const newType = localStorage.getItem(LOCAL_STORAGE_KEY) ?? '';
+      updateType(newType);
+    };
+
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('activeTitleTypeChanged', handleCustomChange);
 
@@ -80,29 +79,6 @@ const Navbar = () => {
   }, [location.search, navigate, setTitleType]);
 
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const storedType = localStorage.getItem(LOCAL_STORAGE_KEY) ?? '';
-      setActiveType((prev) => {
-        if (prev !== storedType) {
-          setTitleType(storedType);
-
-          const searchParams = new URLSearchParams(location.search);
-          if (storedType) {
-            searchParams.set('genre', storedType);
-          } else {
-            searchParams.delete('genre');
-          }
-          navigate({ search: searchParams.toString() }, { replace: true });
-
-          return storedType;
-        }
-        return prev;
-      });
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [location.search, navigate, setTitleType]);
 
   const handleTypeClick = (type: any) => {
     if (type === '') {
@@ -111,13 +87,11 @@ const Navbar = () => {
       localStorage.setItem(LOCAL_STORAGE_KEY, type);
     }
 
-
     window.dispatchEvent(new Event('activeTitleTypeChanged'));
 
     setActiveType(type);
     setTitleType(type);
 
-    // Update URL query param immediately
     const searchParams = new URLSearchParams(location.search);
     if (type) {
       searchParams.set('genre', type);
