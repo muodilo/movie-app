@@ -1,21 +1,24 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../app/store";
-import { searchMovies,getMovies } from "../features/movies/moviesSlice";
+import { searchMovies, getMovies } from "../features/movies/moviesSlice";
+
+const LOCAL_STORAGE_KEY = 'activeTitleType'; 
 
 const SearchBar = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
+    const activeGenre = localStorage.getItem(LOCAL_STORAGE_KEY); 
 
     const delayDebounce = setTimeout(() => {
       const keyword = inputValue.trim();
       if (keyword) {
-        dispatch(searchMovies(keyword));
+        dispatch(searchMovies({keyword,activeGenre}));
       } else {
-      dispatch(getMovies("1"));
-    }
+        dispatch(getMovies("1"));
+      }
     }, 500);
 
     return () => clearTimeout(delayDebounce);

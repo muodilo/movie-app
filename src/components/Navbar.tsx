@@ -1,94 +1,160 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import Logo from './Logo';
 import SearchBar from './SearchBar';
 import { useMovies } from '../context/MovieContext';
 import { MdOutlineClose } from "react-icons/md";
 import { FiMenu } from "react-icons/fi";
-
-interface TitleTypesResponse {
-  results: (string | null)[]; 
-}
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '../app/store';
+import { getMovieGenres } from '../features/movies/moviesSlice';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const LOCAL_STORAGE_KEY = 'activeTitleType';
 
 const Navbar = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const { setTitleType } = useMovies();
   const [collapsed, setCollapsed] = useState(false);
-  const [titleTypes, setTitleTypes] = useState<string[]>([]);
   const [activeType, setActiveType] = useState<string>('');
-  const [loading, setLoading] = useState(true);
+
+  const { genres: titleTypes, getGenresLoading: loading } = useSelector(
+    (state: RootState) => state.movie
+  );
+
 
   useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const genreFromURL = searchParams.get('genre');
     const storedType = localStorage.getItem(LOCAL_STORAGE_KEY) ?? '';
-    setActiveType(storedType);
-    setTitleType(storedType);
 
-    const fetchTitleTypes = async () => {
-      const options = {
-        method: 'GET',
-        url: `${import.meta.env.VITE_BASE_URL}/titles/utils/genres`,
-        headers: {
-          'x-rapidapi-key': import.meta.env.VITE_RAPIDAPI_KEY, 
-          'x-rapidapi-host': import.meta.env.VITE_RAPIDAPI_HOST,
-        },
-      };
+    const initialType = genreFromURL || storedType;
 
-      try {
-        const response = await axios.request<TitleTypesResponse>(options);
-        const filteredResults = response.data.results.filter(
-          (item): item is string => item !== null
-        );
-        setTitleTypes(filteredResults);
-      } catch (error) {
-        console.error('Error fetching title types:', error);
-      } finally {
-        setLoading(false);
+    setActiveType(initialType);
+    setTitleType(initialType);
+
+    dispatch(getMovieGenres());
+  }, [dispatch, location.search, setTitleType]);
+
+
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === LOCAL_STORAGE_KEY) {
+        const newType = event.newValue ?? '';
+        setActiveType(newType);
+        setTitleType(newType);
+
+        const searchParams = new URLSearchParams(location.search);
+        if (newType) {
+          searchParams.set('genre', newType);
+        } else {
+          searchParams.delete('genre');
+        }
+        navigate({ search: searchParams.toString() }, { replace: true });
       }
     };
 
-    fetchTitleTypes();
-  }, [setTitleType]);
+    const handleCustomChange = () => {
+      const newType = localStorage.getItem(LOCAL_STORAGE_KEY) ?? '';
+      setActiveType(newType);
+      setTitleType(newType);
 
-  const handleTypeClick = (type: string) => {
+      const searchParams = new URLSearchParams(location.search);
+      if (newType) {
+        searchParams.set('genre', newType);
+      } else {
+        searchParams.delete('genre');
+      }
+      navigate({ search: searchParams.toString() }, { replace: true });
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('activeTitleTypeChanged', handleCustomChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('activeTitleTypeChanged', handleCustomChange);
+    };
+  }, [location.search, navigate, setTitleType]);
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const storedType = localStorage.getItem(LOCAL_STORAGE_KEY) ?? '';
+      setActiveType((prev) => {
+        if (prev !== storedType) {
+          setTitleType(storedType);
+
+          const searchParams = new URLSearchParams(location.search);
+          if (storedType) {
+            searchParams.set('genre', storedType);
+          } else {
+            searchParams.delete('genre');
+          }
+          navigate({ search: searchParams.toString() }, { replace: true });
+
+          return storedType;
+        }
+        return prev;
+      });
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [location.search, navigate, setTitleType]);
+
+  const handleTypeClick = (type: any) => {
     if (type === '') {
       localStorage.removeItem(LOCAL_STORAGE_KEY);
     } else {
       localStorage.setItem(LOCAL_STORAGE_KEY, type);
     }
+
+
+    window.dispatchEvent(new Event('activeTitleTypeChanged'));
+
     setActiveType(type);
     setTitleType(type);
+
+    // Update URL query param immediately
+    const searchParams = new URLSearchParams(location.search);
+    if (type) {
+      searchParams.set('genre', type);
+    } else {
+      searchParams.delete('genre');
+    }
+    navigate({ search: searchParams.toString() }, { replace: true });
   };
 
   return (
     <nav className="py-2">
-     
+      {/* Desktop Search */}
       <div className="md:flex justify-center hidden">
         <SearchBar />
       </div>
+
+      {/* Mobile Nav Header */}
       <div className="md:hidden py-4 fixed top-0 left-0 right-0 z-50 bg-black px-5 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Logo />
           <p className="font-bold">Movie APP</p>
         </div>
         <div>
-          
           <button
             onClick={() => setCollapsed((prev) => !prev)}
             className="text-white"
           >
             {collapsed ? (
-              
-              <MdOutlineClose className='text-xl'/>
+              <MdOutlineClose className='text-xl' />
             ) : (
-              
-              < FiMenu className='text-xl'/>
+              <FiMenu className='text-xl' />
             )}
           </button>
         </div>
       </div>
 
-
+      {/* Mobile Dropdown */}
       {collapsed && (
         <div className="fixed md:hidden top-0 left-0 right-0 bg-black bg-opacity-80 z-40 pt-16">
           <div className="w-full bg-black text-white p-5">
@@ -101,19 +167,8 @@ const Navbar = () => {
                   <div className="h-6 bg-gray-700 mb-4 w-1/3"></div>
                 </div>
               ) : (
-                <ul className='h-36 overflow-auto'>
-                  <li
-                    key="all"
-                    onClick={() => handleTypeClick('')}
-                    className={`flex items-center gap-3 cursor-pointer py-0.5 px-2 rounded transition-colors ${
-                      activeType === ''
-                        ? 'bg-red-500 text-white'
-                        : 'hover:bg-red-500 hover:text-white'
-                    }`}
-                  >
-                    <span>All</span>
-                  </li>
-                  {titleTypes.map((type) => (
+                <ul className="h-36 overflow-auto">
+                  {titleTypes?.map((type) => (
                     <li
                       key={type}
                       onClick={() => handleTypeClick(type)}
@@ -123,7 +178,7 @@ const Navbar = () => {
                           : 'hover:bg-red-500 hover:text-white'
                       }`}
                     >
-                      <span>{type}</span>
+                      <span>{type || 'All'}</span>
                     </li>
                   ))}
                 </ul>

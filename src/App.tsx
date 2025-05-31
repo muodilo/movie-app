@@ -1,16 +1,21 @@
-import Home from "./pages/Home"
-import { MovieProvider } from './context/MovieContext';
+import Home from "./pages/Home";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
 
 
   return (
-    <>
-    <MovieProvider>
-      <Home/>
+   
+    <Router>
+      <Routes>
+    
+      <Route path="/" element={<Home />} />
+    
 
-    </MovieProvider>
-    </>
+      </Routes>
+
+    </Router>
+   
   )
 }
 
