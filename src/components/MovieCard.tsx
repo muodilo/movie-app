@@ -1,7 +1,7 @@
 import React from "react";
 import { FaImdb } from "react-icons/fa";
 import DefaultImage from "../assets/defaultimage.webp";
-import { MdBookmarkAdd } from "react-icons/md";
+// import { MdBookmarkAdd } from "react-icons/md";
 import { MdBookmarkAdded } from "react-icons/md";
 
 interface MovieCardProps {
