@@ -14,7 +14,7 @@ const SearchBar = () => {
   const searchParams = new URLSearchParams(location.search);
   const searchQuery = searchParams.get('search') || '';
 
-  const [inputValue, setInputValue] = useState(searchQuery); // Sync initial state with URL
+  const [inputValue, setInputValue] = useState(searchQuery); 
 
   useEffect(() => {
     const activeGenre = localStorage.getItem(LOCAL_STORAGE_KEY); 
@@ -38,7 +38,7 @@ const SearchBar = () => {
     return () => clearTimeout(delayDebounce);
   }, [inputValue, dispatch, location.search, navigate]);
 
-  // This ensures if URL changes externally (e.g., browser nav), the input stays in sync
+ 
   useEffect(() => {
     const currentSearch = new URLSearchParams(location.search).get('search') || '';
     setInputValue(currentSearch);

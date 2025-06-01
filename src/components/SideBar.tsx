@@ -82,7 +82,7 @@ const SideBar = () => {
   };
 
   return (
-    <aside className="relative h-screen md:block hidden">
+    <aside className="relative  h-screen md:block hidden">
       <div
         className={`${
           collapsed ? 'w-16' : 'w-64'
@@ -93,7 +93,7 @@ const SideBar = () => {
           {!collapsed && <p className="text-lg font-bold">Movie App</p>}
         </div>
 
-        <nav className="flex-1 overflow-auto px-5 space-y-2 pb-4">
+        <nav className="flex-1 overflow-auto scrollbar-black px-5 space-y-2 pb-4">
           {getGenresLoading && (!genres || genres.length === 0) ? (
             Array.from({ length: 10 }).map((_, idx) => (
               <div

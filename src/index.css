@@ -1,1 +1,25 @@
 @import "tailwindcss";
+
+/* Hide scrollbar completely */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari */
+}
+
+/* Make scrollbar background black */
+.scrollbar-black::-webkit-scrollbar {
+  width: 8px;
+  background-color: black;
+}
+
+.scrollbar-black::-webkit-scrollbar-thumb {
+  background-color: #444; /* Dark gray thumb */
+  border-radius: 4px;
+}
+
+.scrollbar-black {
+  scrollbar-color: #444 black; /* Firefox */
+}

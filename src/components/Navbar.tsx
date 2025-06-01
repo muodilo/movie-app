@@ -141,7 +141,7 @@ const Navbar = () => {
                   <div className="h-6 bg-gray-700 mb-4 w-1/3"></div>
                 </div>
               ) : (
-                <ul className="h-36 overflow-auto">
+                <ul className="h-36 overflow-auto scrollbar-black">
                   {titleTypes?.map((type) => (
                     <li
                       key={type}
