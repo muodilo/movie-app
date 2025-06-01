@@ -39,7 +39,7 @@ const Watchlist: React.FC = () => {
             <h2 className="text-white text-2xl font-bold mb-4 pt-15">
               My Watchlist
             </h2>
-            <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
               {watchlist.map(({ id, title, imageUrl, rating }) => (
                 <div
                   key={id}
@@ -68,7 +68,7 @@ const Watchlist: React.FC = () => {
                         onClick={() => handleRemove(id)}
                         title="Remove from watchlist"
                       >
-                        <MdBookmarkRemove className="text-red-500 text-xl" />
+                        <MdBookmarkRemove className="text-red-500 text-xl cursor-pointer" />
                       </button>
                     </div>
                   </div>

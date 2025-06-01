@@ -147,9 +147,9 @@ const MovieDetail = () => {
               title={isInWatchlist ? "Remove from watchlist" : "Add to watchlist"}
             >
               {isInWatchlist ? (
-                <MdBookmarkAdded className="text-red-500 text-4xl" />
+                <MdBookmarkAdded className="text-red-500 text-4xl cursor-pointer" />
               ) : (
-                <MdBookmarkAdd className="text-white text-4xl" />
+                <MdBookmarkAdd className="text-white text-4xl cursor-pointer" />
               )}
             </button>
           </div>
