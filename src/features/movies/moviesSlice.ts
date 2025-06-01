@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import movieServices from "./moviesServices";
 import type { Movie, MovieState } from "../../types/types";
+import movieServices from "./moviesServices";
 
 interface SearchQuery {
   keyword: string;
@@ -12,7 +12,18 @@ interface SearchQuery {
 const initialState: MovieState = {
   movies: [],
   genres: [],
-
+  movieDetail: {
+    id: "",
+    titleText: { text: "" },
+    primaryImage: { url: "" },
+    releaseYear: { year: new Date().getFullYear() },
+    ratingsSummary: { aggregateRating: "" },
+    plot:{plotText:{plainText:''}},
+    releaseDate:{day:'',month:'',year:''},
+    runtime:"",
+    genres:'',
+    titleType:{text:''},
+  },
   getMoviesLoading: false,
   getMoviesError: false,
   getMoviesErrorMessage: "",
@@ -25,6 +36,11 @@ const initialState: MovieState = {
   getGenresError: false,
   getGenresErrorMessage: "",
   getGenresSuccess: false,
+
+  movieDetailLoading:false,
+  movieDetailError:false,
+  movieDetailErrorMessage:'',
+  movieDetailSuccess:false,
 };
 
 export const getMovies = createAsyncThunk<Movie[], string>(
@@ -80,6 +96,22 @@ export const getMovieGenres = createAsyncThunk<(string | null)[]>(
     }
   }
 );
+
+export const getMovieDetails = createAsyncThunk<Movie,string>("movie/getMovieDetails",async(id,thunkAPI)=>{
+    try {
+        return await movieServices.getMovieDetails(id);
+    } catch (error:any) {
+              const message: string =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+        
+    }
+})
 export const moviesSlice = createSlice({
   name: "movie",
   initialState,
@@ -141,8 +173,22 @@ export const moviesSlice = createSlice({
         state.getGenresError = true;
         state.getGenresErrorMessage= action.payload;
       })
-      
 
+      .addCase(getMovieDetails.pending,(state)=>{
+        state.movieDetailLoading = true;
+      })
+      .addCase(getMovieDetails.fulfilled,(state,action)=>{
+        state.movieDetailLoading=false;
+        state.movieDetailSuccess= true;
+        state.movieDetailError=false;
+        state.movieDetail = action.payload;
+        state.movieDetailErrorMessage='';
+      })
+      .addCase(getMovieDetails.rejected,(state,action: PayloadAction<any>)=>{
+        state.movieDetailLoading = false;
+        state.movieDetailError = true;
+        state.movieDetailErrorMessage= action.payload;
+      })
   },
 });
 

@@ -4,7 +4,7 @@ import { useMovies } from '../context/MovieContext';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../app/store';
 import { getMovieGenres } from '../features/movies/moviesSlice';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import Logo from './Logo';
 
 const LOCAL_STORAGE_KEY = 'activeTitleType';
@@ -88,10 +88,10 @@ const SideBar = () => {
           collapsed ? 'w-16' : 'w-64'
         } bg-black border-r-2 border-slate-800 text-white h-full transition-all duration-300 flex flex-col`}
       >
-        <div className="flex items-center justify-start gap-2 px-5 pt-4 mb-4 shrink-0">
+        <Link to='/' className="flex items-center justify-start gap-2 px-5 pt-4 mb-4 shrink-0">
           <Logo />
           {!collapsed && <p className="text-lg font-bold">Movie App</p>}
-        </div>
+        </Link>
 
         <nav className="flex-1 overflow-auto scrollbar-black px-5 space-y-2 pb-4">
           {getGenresLoading && (!genres || genres.length === 0) ? (

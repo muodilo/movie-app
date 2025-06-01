@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../app/store';
 import { getMovieGenres } from '../features/movies/moviesSlice';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { IoBookmarks } from "react-icons/io5";
 
 const LOCAL_STORAGE_KEY = 'activeTitleType';
 
@@ -24,13 +25,11 @@ const Navbar = () => {
     (state: RootState) => state.movie
   );
 
-
   useEffect(() => {
     if (!titleTypes || titleTypes.length === 0) {
       dispatch(getMovieGenres());
     }
   }, [dispatch, titleTypes]);
-
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -42,7 +41,6 @@ const Navbar = () => {
     setActiveType(initialType);
     setTitleType(initialType);
   }, [location.search, setTitleType]);
-
 
   useEffect(() => {
     const updateType = (newType: string) => {
@@ -78,8 +76,6 @@ const Navbar = () => {
     };
   }, [location.search, navigate, setTitleType]);
 
-
-
   const handleTypeClick = (type: any) => {
     if (type === '') {
       localStorage.removeItem(LOCAL_STORAGE_KEY);
@@ -101,11 +97,23 @@ const Navbar = () => {
     navigate({ search: searchParams.toString() }, { replace: true });
   };
 
+
+  const goToWatchlist = () => {
+    navigate('/watchlist');
+  };
+
   return (
     <nav className="py-2">
-      {/* Desktop Search */}
-      <div className="md:flex justify-center hidden">
+      
+      <div className="md:flex justify-center hidden items-center lg:gap-25 md:gap-15">
         <SearchBar />
+        <button
+          onClick={goToWatchlist}
+          className="bg-red-500 flex items-center gap-1 text-xs cursor-pointer hover:bg-red-600 text-white px-4 py-2 rounded-full"
+        >
+          <IoBookmarks/>
+          <p>Watchlist</p>
+        </button>
       </div>
 
       {/* Mobile Nav Header */}
@@ -135,6 +143,14 @@ const Navbar = () => {
             <SearchBar />
 
             <div className="pt-5">
+              <button
+                onClick={goToWatchlist}
+                className="mb-4 w-full rounded-full bg-red-500 hover:bg-red-600 py-2 text-xs text-white font-semibold flex items-center justify-center gap-1 cursor-pointer"
+              >
+                <IoBookmarks/>
+                <p>Watchlist</p>
+              </button>
+
               {loading ? (
                 <div className="animate-pulse">
                   <div className="h-6 bg-gray-700 mb-4 w-1/3"></div>

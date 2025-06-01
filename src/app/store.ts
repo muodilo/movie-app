@@ -3,6 +3,7 @@ import storage from 'redux-persist/lib/storage';
 import {persistReducer} from 'redux-persist';
 import {combineReducers} from '@reduxjs/toolkit'
 import movieReducer from '../features/movies/moviesSlice'
+import watchlistReducer from '../features/watchlist/watchlistSlice'
 
 const persistConfig = {
     key:'root',
@@ -12,6 +13,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
      movie:movieReducer,
+     watchlist:watchlistReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
