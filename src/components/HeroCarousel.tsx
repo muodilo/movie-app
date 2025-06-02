@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch"; 
 import { FaImdb } from "react-icons/fa";
 import { MdStarRate } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const HeroCarousel = () => {
   const { data: movies, loading, error } = useFetch("top_rated_series_250", 1);
@@ -68,9 +69,9 @@ const HeroCarousel = () => {
                   <p>{rating}</p>
                 </div>
                 <div className="mt-4">
-                  <button className="bg-red-500 px-5 py-2 rounded-xl cursor-pointer">
-                    Watch
-                  </button>
+                  <Link to={`movie/${movie?.id}`} className="bg-red-500 px-5 py-2 rounded-full cursor-pointer">
+                    Open
+                  </Link>
                 </div>
               </div>
             </div>

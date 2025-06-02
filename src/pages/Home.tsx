@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <section className="h-svh bg-black flex">
       <SideBar />
-      <div className="text-white px-5 w-full relative h-svh overflow-auto">
+      <div className="text-white px-5 w-full scrollbar-hide relative h-svh overflow-auto">
         <Navbar />
         <Header />
         <div className=" flex items-center my-5 gap-3">
