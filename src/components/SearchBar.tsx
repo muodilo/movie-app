@@ -67,7 +67,7 @@ const SearchBar = () => {
         type="text"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        className="w-full ps-3 py-1 bg-transparent text-white focus:border-0 focus:outline-0"
+        className="w-full ps-3 py-1 bg-transparent dark:text-white focus:border-0 focus:outline-0"
       />
     </div>
   );
