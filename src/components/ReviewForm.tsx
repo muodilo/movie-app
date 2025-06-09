@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
+import React from "react";
+
 
 interface ReviewFormProps {
   onSubmit: (review: {
