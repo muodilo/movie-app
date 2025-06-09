@@ -86,9 +86,9 @@ const SideBar = () => {
       <div
         className={`${
           collapsed ? 'w-16' : 'w-64'
-        } bg-black border-r-2 border-slate-800 text-white h-full transition-all duration-300 flex flex-col`}
+        } dark:bg-black border-r-2 border-slate-800 dark:text-white h-full transition-all duration-300 flex flex-col`}
       >
-        <Link to='/' className="flex items-center justify-start gap-2 px-5 pt-4 mb-4 shrink-0">
+        <Link to='/' className="flex  items-center justify-start gap-2 px-5 pt-4 mb-4 shrink-0">
           <Logo />
           {!collapsed && <p className="text-lg font-bold">Movie App</p>}
         </Link>
@@ -108,8 +108,8 @@ const SideBar = () => {
                 onClick={() => handleTypeClick(type)}
                 className={`flex items-center gap-3 cursor-pointer py-0.5 px-2 rounded transition-colors ${
                   activeType === type
-                    ? 'bg-red-500 text-white'
-                    : 'hover:bg-red-500 hover:text-white'
+                    ? 'bg-red-500 dark:text-white text-white'
+                    : 'hover:bg-red-500   dark:text-white hover:text-white'
                 }`}
               >
                 {!collapsed && <span>{type || 'All'}</span>}
@@ -121,7 +121,7 @@ const SideBar = () => {
 
       <button
         onClick={() => setCollapsed((prev) => !prev)}
-        className="absolute top-3 left-[calc(100%+4px)] z-20 border-2 bg-black border-slate-800 p-2 rounded-lg text-white shadow cursor-pointer"
+        className="absolute top-3 left-[calc(100%+4px)] z-20 border-2 dark:bg-black dark:border-slate-800 p-2 rounded-lg dark:text-white shadow cursor-pointer"
       >
         <IoIosArrowBack className={collapsed ? 'rotate-180' : ''} />
       </button>

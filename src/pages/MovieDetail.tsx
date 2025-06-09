@@ -91,8 +91,8 @@ const MovieDetail = () => {
   const imageUrl = movieDetail?.primaryImage?.url || defaultImage;
 
   return (
-    <div className="relative w-full min-h-screen overflow-y-auto overflow-x-hidden bg-black text-white px-6 pb-10">
-      <div className="fixed top-0 left-0 w-full z-50 bg-black bg-opacity-90 px-6 py-4 border-b border-gray-800">
+    <div className="relative w-full min-h-screen overflow-y-auto overflow-x-hidden dark:bg-black dark:text-white px-6 pb-10">
+      <div className="fixed top-0 left-0 w-full z-50 dark:bg-black bg-white bg-opacity-90 px-6 py-4 border-b dark:border-gray-800">
         <div className="max-w-7xl mx-auto flex items-center gap-4">
           <Link to="/" className="flex items-center gap-1 text-red-500 hover:underline">
             <IoMdArrowRoundBack className="text-2xl" />
@@ -125,7 +125,7 @@ const MovieDetail = () => {
 
         {/* Movie Details */}
         {movieDetail && (
-          <div className="bg-black bg-opacity-80 rounded-lg p-6">
+          <div className="dark:bg-black bg-opacity-80 rounded-lg p-6">
             {/* Title */}
             <h1 className="text-4xl md:text-5xl font-bold mb-6">{movieDetail.titleText?.text}</h1>
 
@@ -163,7 +163,7 @@ const MovieDetail = () => {
                 <p className="text-gray-300 mb-6">{movieDetail.plot?.plotText?.plainText}</p>
 
                 <div className="flex flex-wrap gap-4">
-                  <button className="bg-red-500 px-6 py-2 rounded-full font-semibold hover:bg-red-600 transition">
+                  <button className="bg-red-500 px-6 py-2 text-white rounded-full font-semibold hover:bg-red-600 transition">
                     Watch Now
                   </button>
                   <button className="border border-red-500 text-red-500 px-6 py-2 rounded-full font-semibold hover:bg-red-500 hover:text-white transition">
@@ -176,7 +176,7 @@ const MovieDetail = () => {
                     {isInWatchlist ? (
                       <MdBookmarkAdded className="text-red-500 text-3xl" />
                     ) : (
-                      <MdBookmarkAdd className="text-white text-3xl" />
+                      <MdBookmarkAdd className="dark:text-white text-3xl" />
                     )}
                   </button>
                 </div>
@@ -198,7 +198,7 @@ const MovieDetail = () => {
                 {reviews.map((rev, idx) => (
                   <li
                     key={idx}
-                    className="border border-gray-700 rounded p-4 bg-gray-900"
+                    className="border border-gray-700 rounded p-4 dark:bg-gray-900"
                   >
                     <div className="flex items-center justify-between mb-1">
                       <p className="font-semibold">{rev.name}</p>

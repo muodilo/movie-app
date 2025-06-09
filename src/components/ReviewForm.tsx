@@ -44,7 +44,7 @@ export const ReviewForm = ({ onSubmit, submitting }: ReviewFormProps) => {
         placeholder="Your name"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        className="w-full p-2 rounded border border-gray-600 bg-gray-800 text-white"
+        className="w-full p-2 rounded border border-gray-600 dark:bg-gray-800 dark:text-white"
         required
         disabled={submitting}
       />
@@ -80,7 +80,7 @@ export const ReviewForm = ({ onSubmit, submitting }: ReviewFormProps) => {
         placeholder="Your comment"
         value={comment}
         onChange={(e) => setComment(e.target.value)}
-        className="w-full p-2 rounded border border-gray-600 bg-gray-800 text-white"
+        className="w-full p-2 rounded border border-gray-600 dark:bg-gray-800 dark:text-white"
         rows={4}
         required
         disabled={submitting}
@@ -89,7 +89,7 @@ export const ReviewForm = ({ onSubmit, submitting }: ReviewFormProps) => {
       <button
         type="submit"
         disabled={submitting}
-        className="bg-red-500 px-4 py-2 rounded font-semibold disabled:opacity-50"
+        className="bg-red-500 text-white px-4 py-2 rounded font-semibold disabled:opacity-50"
       >
         {submitting ? "Submitting..." : "Submit Review"}
       </button>

@@ -5,6 +5,7 @@ import {combineReducers} from '@reduxjs/toolkit'
 import movieReducer from '../features/movies/moviesSlice'
 import watchlistReducer from '../features/watchlist/watchlistSlice'
 import reviewReducer from '../features/reviews/reviewsSlice'
+import themeReducer from '../features/theme/themeSlice'
 
 const persistConfig = {
     key:'root',
@@ -15,7 +16,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
      movie:movieReducer,
      watchlist:watchlistReducer,
-     reviews:reviewReducer
+     reviews:reviewReducer,
+     theme:themeReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

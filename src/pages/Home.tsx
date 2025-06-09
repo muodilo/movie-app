@@ -5,9 +5,9 @@ import SideBar from "../components/SideBar";
 
 const Home = () => {
   return (
-    <section className="h-svh bg-black flex">
+    <section className="h-svh dark:bg-black flex">
       <SideBar />
-      <div className="text-white px-5 w-full scrollbar-hide relative h-svh overflow-auto">
+      <div className="dark:text-white px-5 w-full scrollbar-hide relative h-svh overflow-auto">
         <Navbar />
         <Header />
         <div className=" flex items-center my-5 gap-3">

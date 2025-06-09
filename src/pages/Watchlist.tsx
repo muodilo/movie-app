@@ -18,11 +18,11 @@ const Watchlist: React.FC = () => {
   };
 
   return (
-    <div className="bg-black min-h-screen">
-      <nav className="px-5 border-b bg-black  border-slate-700 fixed z-50 left-0 right-0">
-        <Link to="/" className="flex py-4 items-center gap-2 text-white">
+    <div className="dark:bg-black min-h-screen">
+      <nav className="px-5 border-b dark:bg-black bg-white border-slate-700 fixed z-50 left-0 right-0">
+        <Link to="/" className="flex py-4 items-center gap-2 dark:text-white">
           <Logo />
-          <p className="text-lg font-bold">Movie App</p>
+          <p className="text-lg font-bold ">Movie App</p>
         </Link>
       </nav>
 
@@ -36,7 +36,7 @@ const Watchlist: React.FC = () => {
           </div>
         ) : (
           <>
-            <h2 className="text-white text-2xl font-bold mb-4 pt-15">
+            <h2 className="dark:text-white text-2xl font-bold mb-4 pt-15">
               My Watchlist
             </h2>
             <div className="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
