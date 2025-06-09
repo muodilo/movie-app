@@ -117,7 +117,7 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Nav Header */}
-      <div className="md:hidden py-4 fixed top-0 left-0 right-0 z-50 bg-black px-5 flex items-center justify-between">
+      <div className="md:hidden py-4 fixed top-0 left-0 right-0 z-50 dark:bg-black bg-white px-5 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Logo />
           <p className="font-bold">Movie APP</p>
@@ -125,7 +125,7 @@ const Navbar = () => {
         <div>
           <button
             onClick={() => setCollapsed((prev) => !prev)}
-            className="text-white"
+            className="dark:text-white"
           >
             {collapsed ? (
               <MdOutlineClose className='text-xl' />
@@ -138,8 +138,8 @@ const Navbar = () => {
 
       {/* Mobile Dropdown */}
       {collapsed && (
-        <div className="fixed md:hidden top-0 left-0 right-0 bg-black bg-opacity-80 z-40 pt-16">
-          <div className="w-full bg-black text-white p-5">
+        <div className="fixed md:hidden top-0 left-0 right-0 dark:bg-black bg-white bg-opacity-80 z-40 pt-16">
+          <div className="w-full dark:bg-black dark:text-white p-5">
             <SearchBar />
 
             <div className="pt-5">
